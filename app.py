@@ -62,7 +62,7 @@ pred = layers.Dense(2, activation='sigmoid')(merged)
 model = Model(inputs=[q1,q2], outputs=pred)
 # model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 # Loading the save weights
-model.load_weights('model-20-0.85.hdf5')
+model.load_weights('model-04-0.84.hdf5')
 graph = tf.get_default_graph()
 
 # define the app
