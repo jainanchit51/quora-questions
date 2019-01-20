@@ -117,7 +117,10 @@ def server_error(e):
 
 def predict(input1,input2):
     global graph,model
-
+    print("-----------------------")
+    print(input1)
+    print("-----------------------")
+    print(input2)
     q1 = input1
     q1 = np.array([[q1],[q1]])
     q2 = input2
