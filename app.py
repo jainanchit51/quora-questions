@@ -88,8 +88,8 @@ def api():
     All model-specific logic to be defined in the get_model_api()
     function
     """
-    input1 = request.args.get("input1")
-    input2 = request.args.get("input2")
+    input1 = request.json["input1"]
+    input2 = request.json["input2"]
     output_data = predict(input1, input2)
     response = jsonify(output_data)
     return response
