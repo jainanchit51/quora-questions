@@ -88,10 +88,9 @@ def api():
     All model-specific logic to be defined in the get_model_api()
     function
     """
-    input_data = request.json
-    app.logger.info("api_input: " + str(input_data))
-    output_data = predict(input_data)
-    app.logger.info("api_output: " + str(output_data))
+    input1 = request.json["input1"]
+    input2 = request.json["input2"]
+    output_data = predict(input1, input2)
     response = jsonify(output_data)
     return response
 
@@ -116,12 +115,12 @@ def server_error(e):
     See logs for full stacktrace.
     """.format(e), 500
 
-def predict(input):
+def predict(input1,input2):
     global graph,model
 
-    q1 = input
+    q1 = input1
     q1 = np.array([[q1],[q1]])
-    q2 = input
+    q2 = input2
     q2 = np.array([[q2],[q2]])
 
 

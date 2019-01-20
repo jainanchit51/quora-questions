@@ -12,8 +12,9 @@
         <div style="padding-bottom: 0.5cm">
             <div class="card text-center bg-light">
                 <div class="card-body" style="padding-bottom: 0.2cm">
-                    <input class="card-title form-control" type="text" id="input" name="input" placeholder="Input sentence"/>
-                    <button class="card-text btn btn-outline-primary" id="btn">Find Entities</button>
+                    <input class="card-title form-control" type="text" id="input1" name="input1" placeholder="Enter Question 1"/>
+                    <input class="card-title form-control" type="text" id="input2" name="input2" placeholder="Enter Question 2"/>
+                    <button class="card-text btn btn-outline-primary" id="btn">Check Duplicates</button>
                     <div class="spinner" id="spinner" style="display: none">
                       <div class="double-bounce1"></div>
                       <div class="double-bounce2"></div>
@@ -21,8 +22,7 @@
                 </div>
                 <div class="card-footer bg-white">
                     <pre class="card-text api-pre" style="padding-bottom: 0.2cm">
-                        <div class="item" id="api_input">I love Paris </div>
-                        <div class="item" id="api_output">0 0   B-LOC</div>
+                        <div class="item" id="api_output"></div>
                     </pre>
                 </div>
             </div>
@@ -33,7 +33,7 @@
 
 
 <script type="text/javascript">
-    function api_call(input) {
+    function api_call(input1, input2) {
         // hide button and make the spinner appear
         $('#btn').toggle();
         $('#spinner').toggle();
@@ -42,7 +42,7 @@
             url: "http://3.81.122.245:5000/api",
             method: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify(input),
+            data: {input1: input1, input2: input2},
 
             success: function( data, textStatus, jQxhr ){
                 // toggle the spinner and button
@@ -50,8 +50,7 @@
                 $('#spinner').toggle();
 
                 // fill the html for answer
-                $('#api_input').html( data.input );
-                $('#api_output').html( data.output );
+                $('#api_output').html( data );
 
                 $("#input").val("");
             },
@@ -74,9 +73,11 @@
         // request when clicking on the button
         $('#btn').click(function() {
             // get the input data
-            var input = $("#input").val();
-            api_call(input);
-            input = "";
+            var input1 = $("#input1").val();
+            var input2 = $("#input2").val();
+            api_call(input1, input2);
+            input1 = "";
+            input2 = "";
     });
     });
 
