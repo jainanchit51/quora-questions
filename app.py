@@ -127,12 +127,12 @@ def predict(input):
 
     # Using the same tensorflow session for embedding the test string
     with tf.Session() as session:
-        with graph.as_default():
-          K.set_session(session)
-          session.run(tf.global_variables_initializer())
-          session.run(tf.tables_initializer())
-          # Predicting the similarity between the two input questions
 
+      K.set_session(session)
+      session.run(tf.global_variables_initializer())
+      session.run(tf.tables_initializer())
+      # Predicting the similarity between the two input questions
+      with graph.as_default():
           predicts = model.predict([q1, q2], verbose=0)
           predict_logits = predicts.argmax(axis=1)
           if(predict_logits[0] == 1):
