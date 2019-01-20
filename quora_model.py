@@ -33,7 +33,7 @@ def UniversalEmbedding(x):
     return embed(tf.squeeze(tf.cast(x, tf.string)), signature="default", as_dict=True)["default"]
 
 def pred(input1, input2):
-    global g
+    global g, init_op
     module_url = "https://tfhub.dev/google/universal-sentence-encoder-large/3"
     embed = hub.Module(module_url)
     DROPOUT = 0.1
@@ -85,7 +85,7 @@ def pred(input1, input2):
     # Using the same tensorflow session for embedding the test string
     with tf.Session(graph=g) as session:
       K.set_session(session)
-      session.run(init_ops)
+      session.run(init_op)
       # Predicting the similarity between the two input questions
 
       predicts = model.predict([q1, q2], verbose=0)
