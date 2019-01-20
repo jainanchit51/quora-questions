@@ -138,7 +138,7 @@ def predict(input1,input2):
           predicts = model.predict([q1, q2], verbose=0)
           predict_logits = predicts.argmax(axis=1)
           print("---------------")
-          print(predict_logits)
+          print(predicts)
           print("---------------")
           if(predict_logits[0] == 1):
             return "Similar"
