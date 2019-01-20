@@ -63,7 +63,7 @@ model = Model(inputs=[q1,q2], outputs=pred)
 # model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 # Loading the save weights
 model.load_weights('model-04-0.84.hdf5')
-graph = tf.get_default_graph()
+
 
 # define the app
 app = Flask(__name__)
@@ -116,7 +116,7 @@ def server_error(e):
     """.format(e), 500
 
 def predict(input1,input2):
-    global graph,model
+    global model
     print("-----------------------")
     print(input1)
     print("-----------------------")
@@ -125,7 +125,7 @@ def predict(input1,input2):
     q1 = np.array([[q1],[q1]])
     q2 = input2
     q2 = np.array([[q2],[q2]])
-
+    graph = tf.get_default_graph()
 
     # Using the same tensorflow session for embedding the test string
     with tf.Session(graph=graph) as session:
