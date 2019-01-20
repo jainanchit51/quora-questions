@@ -20,9 +20,7 @@ np.random.seed(10)
 
 import tensorflow as tf
 import tensorflow_hub as hub
-# enabling the pretrained model for trainig our custom model using tensorflow hub
-module_url = "https://tfhub.dev/google/universal-sentence-encoder-large/3"
-embed = hub.Module(module_url)
+
 
 
 
@@ -80,6 +78,10 @@ def server_error(e):
     """.format(e), 500
 
 def predict(input1,input2):
+    # enabling the pretrained model for trainig our custom model using tensorflow hub
+    module_url = "https://tfhub.dev/google/universal-sentence-encoder-large/3"
+    embed = hub.Module(module_url)
+    
     DROPOUT = 0.1
     # creating a method for embedding and will using method for every input layer
     def UniversalEmbedding(x):
@@ -117,7 +119,7 @@ def predict(input1,input2):
     # model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     # Loading the save weights
     model.load_weights('model-04-0.84.hdf5')
-    
+
     print("-----------------------")
     print(input1)
     print("-----------------------")
