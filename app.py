@@ -74,7 +74,7 @@ if 'DYNO' in os.environ:
 
 
 # load the model
-model_api = get_model_api()
+# model_api = get_model_api()
 
 
 # API route
