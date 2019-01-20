@@ -126,7 +126,7 @@ def predict(input):
 
 
     # Using the same tensorflow session for embedding the test string
-    with tf.Session() as session:
+    with tf.Session(graph=graph) as session:
 
       K.set_session(session)
       session.run(tf.global_variables_initializer())
