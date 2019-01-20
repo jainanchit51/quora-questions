@@ -42,7 +42,7 @@
             url: "http://3.81.122.245:5000/api",
             method: 'POST',
             contentType: 'application/json',
-            data: {input1: input1, input2: input2},
+            data: JSON.stringify({input1: input1, input2: input2}),
 
             success: function( data, textStatus, jQxhr ){
                 // toggle the spinner and button
