@@ -114,6 +114,7 @@ def server_error(e):
     """.format(e), 500
 
 def predict(input):
+    global model
     q1 = input
     q1 = np.array([[q1],[q1]])
     q2 = input
