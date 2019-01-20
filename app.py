@@ -63,8 +63,7 @@ model = Model(inputs=[q1,q2], outputs=pred)
 # model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 # Loading the save weights
 model.load_weights('model-20-0.85.hdf5')
-
-
+graph = tf.get_default_graph()
 
 # define the app
 app = Flask(__name__)
@@ -119,7 +118,7 @@ def server_error(e):
 
 def predict(input):
     global graph,model
-    graph = tf.get_default_graph()
+
     q1 = input
     q1 = np.array([[q1],[q1]])
     q2 = input
@@ -128,17 +127,18 @@ def predict(input):
 
     # Using the same tensorflow session for embedding the test string
     with tf.Session() as session:
-      K.set_session(session)
-      session.run(tf.global_variables_initializer())
-      session.run(tf.tables_initializer())
-      # Predicting the similarity between the two input questions
-      with graph.as_default():
+        with graph.as_default():
+          K.set_session(session)
+          session.run(tf.global_variables_initializer())
+          session.run(tf.tables_initializer())
+          # Predicting the similarity between the two input questions
+
           predicts = model.predict([q1, q2], verbose=0)
-      predict_logits = predicts.argmax(axis=1)
-      if(predict_logits[0] == 1):
-        return "Similar"
-      else:
-        return "Not Similar"
+          predict_logits = predicts.argmax(axis=1)
+          if(predict_logits[0] == 1):
+            return "Similar"
+          else:
+            return "Not Similar"
 
 
 if __name__ == '__main__':
