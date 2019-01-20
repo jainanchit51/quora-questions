@@ -19,14 +19,23 @@ import tensorflow as tf
 import tensorflow_hub as hub
 
 # enabling the pretrained model for trainig our custom model using tensorflow hub
-module_url = "https://tfhub.dev/google/universal-sentence-encoder-large/3"
-embed = hub.Module(module_url)
+
+# Create graph and finalize (optional but recommended).
+g = tf.Graph()
+with g.as_default():
+  text_input = tf.placeholder(dtype=tf.string, shape=[None])
+  embed = hub.Module("https://tfhub.dev/google/universal-sentence-encoder-large/3")
+  init_op = tf.group([tf.global_variables_initializer(), tf.tables_initializer()])
+g.finalize()
+
 
 def UniversalEmbedding(x):
     return embed(tf.squeeze(tf.cast(x, tf.string)), signature="default", as_dict=True)["default"]
 
 def pred(input1, input2):
-
+    global g
+    module_url = "https://tfhub.dev/google/universal-sentence-encoder-large/3"
+    embed = hub.Module(module_url)
     DROPOUT = 0.1
     # creating a method for embedding and will using method for every input layer
 
@@ -74,10 +83,9 @@ def pred(input1, input2):
     q2 = np.array([[q2],[q2]])
 
     # Using the same tensorflow session for embedding the test string
-    with tf.Session() as session:
+    with tf.Session(graph=g) as session:
       K.set_session(session)
-      session.run(tf.global_variables_initializer())
-      session.run(tf.tables_initializer())
+      session.run(init_ops)
       # Predicting the similarity between the two input questions
 
       predicts = model.predict([q1, q2], verbose=0)
