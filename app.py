@@ -56,7 +56,7 @@ merged = layers.Dropout(DROPOUT)(merged)
 merged = layers.BatchNormalization()(merged)
 pred = layers.Dense(2, activation='sigmoid')(merged)
 model = Model(inputs=[q1,q2], outputs=pred)
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+# model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 # Loading the save weights
 model.load_weights('model-20-0.85.hdf5')
 
