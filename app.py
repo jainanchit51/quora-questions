@@ -137,11 +137,7 @@ def predict(input1,input2):
       with graph.as_default():
           predicts = model.predict([q1, q2], verbose=0)
           predict_logits = predicts.argmax(axis=1)
-          if(predict_logits[0] == 1):
-            return "Similar"
-          else:
-            return "Not Similar"
-
+          return predict_logits
 
 if __name__ == '__main__':
     # This is used when running locally.
