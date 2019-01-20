@@ -16,11 +16,15 @@ from keras.models import Model
 from keras import backend as K
 np.random.seed(10)
 
+
+
 import tensorflow as tf
 import tensorflow_hub as hub
 # enabling the pretrained model for trainig our custom model using tensorflow hub
 module_url = "https://tfhub.dev/google/universal-sentence-encoder-large/3"
 embed = hub.Module(module_url)
+
+
 
 DROPOUT = 0.1
 # creating a method for embedding and will using method for every input layer
@@ -114,7 +118,8 @@ def server_error(e):
     """.format(e), 500
 
 def predict(input):
-    global model
+    global graph,model
+    graph = tf.get_default_graph()
     q1 = input
     q1 = np.array([[q1],[q1]])
     q2 = input
@@ -127,7 +132,8 @@ def predict(input):
       session.run(tf.global_variables_initializer())
       session.run(tf.tables_initializer())
       # Predicting the similarity between the two input questions
-      predicts = model.predict([q1, q2], verbose=0)
+      with graph.as_default():
+          predicts = model.predict([q1, q2], verbose=0)
       predict_logits = predicts.argmax(axis=1)
       if(predict_logits[0] == 1):
         return "Similar"
