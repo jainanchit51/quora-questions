@@ -22,6 +22,7 @@ import tensorflow_hub as hub
 module_url = "https://tfhub.dev/google/universal-sentence-encoder-large/3"
 embed = hub.Module(module_url)
 
+DROPOUT = 0.1
 # creating a method for embedding and will using method for every input layer
 def UniversalEmbedding(x):
     return embed(tf.squeeze(tf.cast(x, tf.string)), signature="default", as_dict=True)["default"]
